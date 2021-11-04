@@ -8,6 +8,8 @@ public protocol LightboxControllerPageDelegate: class {
 public protocol LightboxControllerDismissalDelegate: class {
 
   func lightboxControllerWillDismiss(_ controller: LightboxController)
+    
+  func lightboxControllerDidDismiss(_ controller: LightboxController)
 }
 
 public protocol LightboxControllerTouchDelegate: class {
@@ -451,7 +453,9 @@ extension LightboxController: HeaderViewDelegate {
     closeButton.isEnabled = false
     presented = false
     dismissalDelegate?.lightboxControllerWillDismiss(self)
-    dismiss(animated: true, completion: nil)
+    dismiss(animated: true, completion: {
+        self.dismissalDelegate?.lightboxControllerDidDismiss(self)
+    })
   }
 }
 

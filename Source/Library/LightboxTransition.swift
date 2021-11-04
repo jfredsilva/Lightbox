@@ -68,9 +68,12 @@ class LightboxTransition: UIPercentDrivenInteractiveTransition {
 
         UIView.animate(withDuration: TimeInterval(time), delay: 0, options: [.allowUserInteraction], animations: {
           self.scrollView?.frame.origin.y = translation.y * 3
-          controller.view.alpha = 0
           controller.view.backgroundColor = UIColor.black.withAlphaComponent(0)
-          }, completion: { _ in })
+          }, completion: { _ in
+              self.scrollView?.isHidden = true
+              guard let lightboxController = self.lightboxController else { return }
+              lightboxController.dismissalDelegate?.lightboxControllerDidDismiss(lightboxController)
+          })
       } else {
         cancel()
 
