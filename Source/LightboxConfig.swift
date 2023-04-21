@@ -1,11 +1,12 @@
 import UIKit
 import AVKit
 import AVFoundation
-import SDWebImage
 
 public class LightboxConfig {
   /// Whether to show status bar while Lightbox is presented
   public static var hideStatusBar = true
+    
+  public static var imageBackgroundColor = UIColor.black
 
   /// Provide a closure to handle selected video
   public static var handleVideo: (_ from: UIViewController, _ videoURL: URL) -> Void = { from, videoURL in
@@ -18,13 +19,7 @@ public class LightboxConfig {
   }
 
   /// How to load image onto SDAnimatedImageView
-  public static var loadImage: (SDAnimatedImageView, URL, ((UIImage?) -> Void)?) -> Void = { (imageView, imageURL, completion) in
-
-    // Use SDWebImage by default
-    imageView.sd_setImage(with: imageURL) { image, error, _ , _ in
-      completion?(image)
-    }
-  }
+  public static var loadImage: ((UIImageView, URL, ((UIImage?) -> Void)?) -> Void)?
 
   /// Indicator is used to show while image is being fetched
   public static var makeLoadingIndicator: () -> UIView = {
